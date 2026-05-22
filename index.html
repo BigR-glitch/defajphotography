@@ -662,9 +662,9 @@
   <div class="gallery-filters">
     <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
     <button class="filter-btn" onclick="filterGallery('portraits', this)">Portraits</button>
-    <button class="filter-btn" onclick="filterGallery('weddings', this)">Lifestyle</button>
+    <button class="filter-btn" onclick="filterGallery('eventss', this)">Events</button>
     <button class="filter-btn" onclick="filterGallery('fashion', this)">Fashion</button>
-    <button class="filter-btn" onclick="filterGallery('corporate', this)">Event</button>
+    <button class="filter-btn" onclick="filterGallery('corporate', this)">Lifestyle</button>
   </div>
   <div class="gallery-grid" id="galleryGrid">
     <!-- Gallery items injected by JS -->
@@ -693,7 +693,7 @@
       <p class="about-text">When I'm not behind the lens, you'll find me exploring Accra's streets, scouting golden-hour locations, or mentoring young photographers who share the same obsession with beautiful light.</p>
       <div class="about-skills">
         <span class="about-skill">Portraits</span>
-        <span class="about-skill">Weddings</span>
+        <span class="about-skill">Lifestyle</span>
         <span class="about-skill">Fashion</span>
         <span class="about-skill">Editorial</span>
         <span class="about-skill">Corporate</span>
@@ -794,11 +794,10 @@
           <select class="form-control" id="bookType">
             <option value="">Select...</option>
             <option>Portrait Session</option>
-            <option>Wedding Photography</option>
+            <option>Lifestyle</option>
             <option>Fashion / Editorial</option>
-            <option>Corporate / Headshots</option>
             <option>Event Coverage</option>
-            <option>Other</option>
+            <option>Others</option>
           </select>
         </div>
         <div class="form-group">
@@ -811,24 +810,21 @@
         <select class="form-control" id="bookPackage">
           <option value="">Select a package...</option>
           <option>Essential – GH₵ 1500</option>
-          <option>Signature – GH₵ 750</option>
-          <option>Premium – GH₵ 1,500</option>
-          <option>Custom / Wedding – Let's discuss</option>
+          <option>Signature – GH₵ 2,000,</option>
+          <option>Premium – GH₵ 3,000</option>
+          <option>Custom – Let's discuss</option>
         </select>
       </div>
       <div class="form-group">
         <label class="form-label">Tell Us About Your Vision</label>
         <textarea class="form-control" id="bookMessage" placeholder="Describe the look, mood, location ideas, or anything you'd like us to know..."></textarea>
       </div>
-      <!--button class="whatsapp-btn" onclick="sendToWhatsApp()">
+      <button class="whatsapp-btn" onclick="sendToWhatsApp()">
         <span class="whatsapp-icon">💬</span>
-        Send Booking Request via WhatsApp
-      </button>-->
+         Message Bab directly on WhatsApp
+      </button>
 
-      <!-- Direct DM link: opens WhatsApp chat with your number -->
-      <a class="whatsapp-btn" href="https://wa.me/233207492996" target="_blank" rel="noopener" style="margin-top:0.6rem; text-decoration:none; display:flex; justify-content:center; align-items:center;">
-        <span class="whatsapp-icon">💬</span>
-        Message Bab directly on WhatsApp
+       
       </a>
     </div>
   </div>
@@ -953,7 +949,7 @@ const COLLECTIONS = {
 /* ── DEFAULT GALLERY DATA (seeds localStorage on first visit) ── */
 const DEFAULT_ITEMS = [
   { id: 1,  src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80', cat: 'portraits', caption: 'Studio Portrait' },
-  { id: 2,  src: 'https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?w=900&q=80', cat: 'portraits', caption: 'Outdoor Portrait' },
+  { id: 2,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22.jpg', cat: 'portraits', caption: 'Outdoor Portrait' },
   { id: 3,  src: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=900&q=80', cat: 'portraits', caption: 'Lifestyle Session' },
   { id: 4,  src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=80', cat: 'weddings',  caption: 'Wedding Ceremony' },
   { id: 5,  src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=900&q=80', cat: 'weddings',  caption: 'Bridal Portraits' },
@@ -1230,9 +1226,9 @@ function resetGalleryToDefaults() {
     <div class="admin-tabs">
       <button class="btn-ghost" style="opacity:1" onclick="setAdminTab('all', this)">All</button>
       <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('portraits', this)">Portraits</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('weddings', this)">Weddings</button>
+      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('weddings', this)">Events</button>
       <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('fashion', this)">Fashion</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('corporate', this)">Corporate</button>
+      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('corporate', this)">Lifesty</button>
     </div>
     <div id="adminList" class="admin-list"></div>
   </div>
