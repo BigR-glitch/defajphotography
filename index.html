@@ -627,8 +627,8 @@
         <p class="service-price">Starting at GH₵ 350</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">💍</div>
-        <h3 class="service-title">Lifestyle</h3>
+        <div class="service-icon">🎪</div>
+        <h3 class="service-title">Events</h3>
         <p class="service-desc">Full-day event coverage that tells the complete story of your special day — from morning prep to the last dance.</p>
         <p class="service-price">Starting at GH₵ 2,500</p>
       </div>
@@ -639,9 +639,12 @@
         <p class="service-price">Starting at GH₵ 800</p>
       </div>
       <div class="service-card">
-        <div class="service-icon">🏢</div>
-        <h3 class="service-title">Corporate</h3>
-        <p class="service-desc">Professional headshots, team photos and brand imagery that give your business a polished, credible presence.</p>
+        <div class="service-icon">🏙️</div>
+        <h3 class="service-title">Lifestyle</h3>
+        <p class="service-desc">Capture the real you-candid moments,genuine emotions and the beauty of everyday life.
+          
+        </p>
+        
         <p class="service-price">Starting at GH₵ 600</p>
       </div>
     </div>
@@ -662,7 +665,7 @@
   <div class="gallery-filters">
     <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
     <button class="filter-btn" onclick="filterGallery('portraits', this)">Portraits</button>
-    <button class="filter-btn" onclick="filterGallery('eventss', this)">Events</button>
+    <button class="filter-btn" onclick="filterGallery('weddings', this)">Events</button>
     <button class="filter-btn" onclick="filterGallery('fashion', this)">Fashion</button>
     <button class="filter-btn" onclick="filterGallery('corporate', this)">Lifestyle</button>
   </div>
@@ -948,18 +951,18 @@ const COLLECTIONS = {
 
 /* ── DEFAULT GALLERY DATA (seeds localStorage on first visit) ── */
 const DEFAULT_ITEMS = [
-  { id: 1,  src: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=900&q=80', cat: 'portraits', caption: 'Studio Portrait' },
-  { id: 2,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22.jpg', cat: 'portraits', caption: 'Outdoor Portrait' },
-  { id: 3,  src: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=900&q=80', cat: 'portraits', caption: 'Lifestyle Session' },
-  { id: 4,  src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=80', cat: 'weddings',  caption: 'Wedding Ceremony' },
-  { id: 5,  src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=900&q=80', cat: 'weddings',  caption: 'Bridal Portraits' },
-  { id: 6,  src: 'https://images.unsplash.com/photo-1520854221256-17451cc331bf?w=900&q=80', cat: 'weddings',  caption: 'First Dance' },
-  { id: 7,  src: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=900&q=80', cat: 'weddings',  caption: 'Reception Moments' },
-  { id: 8,  src: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=80', cat: 'fashion',   caption: 'Fashion Editorial' },
-  { id: 9,  src: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=900&q=80', cat: 'fashion',   caption: 'Model Shoot' },
-  { id: 10, src: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=900&q=80', cat: 'fashion',   caption: 'Fashion Week' },
-  { id: 11, src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80', cat: 'corporate', caption: 'Executive Portrait' },
-  { id: 12, src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=900&q=80', cat: 'corporate', caption: 'Team Headshots' },
+  { id: 1,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg', cat: 'portraits', caption: 'Studio Portrait' },
+  { id: 2,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.38_AM_1_rc2uyw.jpg', cat: 'portraits', caption: 'Outdoor Portrait' },
+  { id: 3,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.40_AM_2_bpfzu0.jpg', cat: 'portraits', caption: 'Lifestyle Session' },
+  { id: 4,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.37_AM_dabzto.jpg', cat: 'events',  caption: 'Wedding Ceremony' },
+  { id: 5,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.41_AM_nerkaq.jpg', cat: 'events',  caption: 'B Portraits' },
+  { id: 6,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.44_AM_ajymkq.jpg', cat: 'events',  caption: 'First Dance' },
+  { id: 7,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.42_AM_wptlqf.jpg', cat: 'events',  caption: 'Reception Moments' },
+  { id: 8,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410977/WhatsApp_Image_2026-05-22_at_12.45.38_AM_hvzuif.jpg', cat: 'fashion',   caption: 'Fashion Editorial' },
+  { id: 9,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.38_AM_2_bpmc5z.jpg', cat: 'fashion',   caption: 'Model Shoot' },
+  { id: 10, src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.40_AM_1_lrd0qp.jpg', cat: 'fashion',   caption: 'Fashion Week' },
+  { id: 11, src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.42_AM_3_snr9qk.jpg', cat: 'corporate', caption: 'Executive Portrait' },
+  { id: 12, src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.37_AM_1_wjeeob.jpg', cat: 'corporate', caption: 'Team Headshots' },
 ];
 
 const STORAGE_KEY = 'bab_gallery_v1';
