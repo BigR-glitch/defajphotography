@@ -954,10 +954,10 @@ const DEFAULT_ITEMS = [
   { id: 1,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg', cat: 'portraits', caption: 'Studio Portrait' },
   { id: 2,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.38_AM_1_rc2uyw.jpg', cat: 'portraits', caption: 'Outdoor Portrait' },
   { id: 3,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.40_AM_2_bpfzu0.jpg', cat: 'portraits', caption: 'Lifestyle Session' },
-  { id: 4,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.37_AM_dabzto.jpg', cat: 'events',  caption: 'Wedding Ceremony' },
-  { id: 5,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.41_AM_nerkaq.jpg', cat: 'events',  caption: 'B Portraits' },
-  { id: 6,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.44_AM_ajymkq.jpg', cat: 'events',  caption: 'First Dance' },
-  { id: 7,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.42_AM_wptlqf.jpg', cat: 'events',  caption: 'Reception Moments' },
+  { id: 4,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.37_AM_dabzto.jpg', cat: 'weddings',  caption: 'Wedding Ceremony' },
+  { id: 5,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.41_AM_nerkaq.jpg', cat: 'weddings',  caption: 'B Portraits' },
+  { id: 6,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.44_AM_ajymkq.jpg', cat: 'weddings',  caption: 'First Dance' },
+  { id: 7,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.42_AM_wptlqf.jpg', cat: 'weddings',  caption: 'Reception Moments' },
   { id: 8,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410977/WhatsApp_Image_2026-05-22_at_12.45.38_AM_hvzuif.jpg', cat: 'fashion',   caption: 'Fashion Editorial' },
   { id: 9,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410978/WhatsApp_Image_2026-05-22_at_12.45.38_AM_2_bpmc5z.jpg', cat: 'fashion',   caption: 'Model Shoot' },
   { id: 10, src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410976/WhatsApp_Image_2026-05-22_at_12.45.40_AM_1_lrd0qp.jpg', cat: 'fashion',   caption: 'Fashion Week' },
@@ -966,12 +966,15 @@ const DEFAULT_ITEMS = [
 ];
 
 const STORAGE_KEY = 'bab_gallery_v1';
-const ADMIN_PASSWORD = 'bankuwithshito2026'; // ⚠️ change this to your own secret
+const ADMIN_PASSWORD = 'bankuwithshito2006'; // ⚠️ change this to your own secret
 
 function loadItems() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ITEMS));
   return [...DEFAULT_ITEMS];
 }
+let galleryItems = loadItems();
+let currentFilter = 'all';
+
 
 /* ── RENDER COLLECTION COVERS ── */
 function renderGallery(filter) {
