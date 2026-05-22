@@ -642,7 +642,7 @@
         <div class="service-icon">🏙️</div>
         <h3 class="service-title">Lifestyle</h3>
         <p class="service-desc">Capture the real you-candid moments,genuine emotions and the beauty of everyday life.
-          
+
         </p>
         
         <p class="service-price">Starting at GH₵ 600</p>
@@ -966,19 +966,12 @@ const DEFAULT_ITEMS = [
 ];
 
 const STORAGE_KEY = 'bab_gallery_v1';
-const ADMIN_PASSWORD = CONFIG.adminPasword; // ⚠️ change this to your own secret
+const ADMIN_PASSWORD = 'bankuwithshito2026'; // ⚠️ change this to your own secret
 
 function loadItems() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
   localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ITEMS));
   return [...DEFAULT_ITEMS];
 }
-function saveItems(items) { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }
-let galleryItems = loadItems();
-let currentFilter = 'all';
 
 /* ── RENDER COLLECTION COVERS ── */
 function renderGallery(filter) {
