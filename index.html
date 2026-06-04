@@ -1,7 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head><title>Coming Soon</title></head>
-  <body style="background:#000; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; font-family:sans-serif;">
-    <h1>Coming Soon</h1>
-  </body>
+<head>
+  <title>Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #000;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      overflow: hidden;
+    }
+
+    /* grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+      background-size: 180px;
+      opacity: .18;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .eyebrow {
+      font-size: clamp(.65rem, 1.2vw, .8rem);
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      font-weight: 300;
+      margin-bottom: 1.6rem;
+      animation: fadeUp .9s ease both;
+    }
+
+    h1 {
+      font-size: clamp(5rem, 14vw, 13rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: .92;
+      letter-spacing: -.01em;
+      background: linear-gradient(160deg, #fff 30%, rgba(255,255,255,.45));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp .9s .15s ease both;
+    }
+
+    .rule {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.35), transparent);
+      margin: 2rem auto;
+      animation: fadeUp .9s .3s ease both;
+    }
+
+    .sub {
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 300;
+      color: rgba(255,255,255,.4);
+      letter-spacing: .12em;
+      animation: fadeUp .9s .4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p class="eyebrow">Something is on its way</p>
+    <h1>Coming<br>Soon</h1>
+    <div class="rule"></div>
+    <p class="sub">We'll be ready before you know it.</p>
+  </div>
+</body>
 </html>
