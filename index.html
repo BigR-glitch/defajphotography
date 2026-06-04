@@ -2,10 +2,9 @@
 <html>
 <head>
   <title>Coming Soon</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@200;300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       background: #000;
       color: #fff;
@@ -13,67 +12,60 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
+      font-family: 'Montserrat', sans-serif;
       overflow: hidden;
     }
-
-    /* grain overlay */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
       background-size: 180px;
-      opacity: .18;
+      opacity: .22;
       pointer-events: none;
       z-index: 0;
     }
-
     .container {
       position: relative;
       z-index: 1;
       text-align: center;
     }
-
     .eyebrow {
-      font-size: clamp(.65rem, 1.2vw, .8rem);
-      letter-spacing: .38em;
+      font-size: clamp(.7rem, 1.3vw, .85rem);
+      letter-spacing: .45em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.3);
-      font-weight: 300;
-      margin-bottom: 1.6rem;
+      color: rgba(255,255,255,.28);
+      font-weight: 200;
+      margin-bottom: 1.4rem;
       animation: fadeUp .9s ease both;
     }
-
     h1 {
-      font-size: clamp(5rem, 14vw, 13rem);
-      font-weight: 300;
-      font-style: italic;
-      line-height: .92;
-      letter-spacing: -.01em;
-      background: linear-gradient(160deg, #fff 30%, rgba(255,255,255,.45));
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(7rem, 20vw, 18rem);
+      font-weight: 400;
+      line-height: .88;
+      letter-spacing: .04em;
+      background: linear-gradient(160deg, #fff 40%, rgba(255,255,255,.4));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: fadeUp .9s .15s ease both;
     }
-
     .rule {
       width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.35), transparent);
-      margin: 2rem auto;
+      height: 55px;
+      background: linear-gradient(to bottom, transparent, rgba(255,255,255,.3), transparent);
+      margin: 1.8rem auto;
       animation: fadeUp .9s .3s ease both;
     }
-
     .sub {
-      font-size: clamp(1rem, 2vw, 1.35rem);
-      font-weight: 300;
-      color: rgba(255,255,255,.4);
-      letter-spacing: .12em;
+      font-size: clamp(.8rem, 1.5vw, 1rem);
+      font-weight: 200;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .3em;
+      text-transform: uppercase;
       animation: fadeUp .9s .4s ease both;
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
