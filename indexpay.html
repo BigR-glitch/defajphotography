@@ -75,34 +75,6 @@
 
   
 
-  /* ── ADMIN PANEL ── */
-  .admin-fab { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 48px; height: 48px; border-radius: 50%; background: var(--gold); color: var(--dark); border: none; cursor: pointer; font-size: 1.3rem; z-index: 150; box-shadow: 0 4px 14px rgba(0,0,0,0.4); display: none; }
-  .admin-fab.visible { display: block; }
-  .admin-modal { position: fixed; inset: 0; background: rgba(8,8,8,0.96); z-index: 300; display: none; overflow-y: auto; }
-  .admin-modal.open { display: block; }
-  .admin-inner { max-width: 1100px; margin: 0 auto; padding: 3rem 2rem; }
-  .admin-inner h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--gold); margin-bottom: 0.4rem; font-weight: 300; }
-  .admin-inner > p { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
-  .admin-form { background: var(--dark2); padding: 1.5rem; border: 1px solid rgba(201,168,76,0.2); border-radius: 4px; margin-bottom: 2.5rem; }
-  .admin-form h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--cream); margin-bottom: 1rem; }
-  .admin-form input, .admin-form select { width: 100%; padding: 0.7rem; margin-bottom: 0.8rem; background: var(--dark3); border: 1px solid rgba(201,168,76,0.2); color: var(--text); border-radius: 2px; font-family: inherit; font-size: 0.9rem; }
-  .admin-form input:focus, .admin-form select:focus { outline: none; border-color: var(--gold); }
-  .admin-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-  @media (max-width: 600px) { .admin-form .row { grid-template-columns: 1fr; } }
-  .btn-gold { background: var(--gold); color: var(--dark); border: none; padding: 0.7rem 1.6rem; cursor: pointer; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.78rem; border-radius: 2px; font-family: inherit; }
-  .btn-gold:hover { background: var(--gold-light); }
-  .btn-ghost { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 0.45rem 1rem; cursor: pointer; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.7rem; border-radius: 2px; font-family: inherit; margin-right: 0.4rem; }
-  .btn-ghost.danger { color: #e8806b; border-color: #e8806b; }
-  .btn-ghost:hover { background: var(--gold); color: var(--dark); }
-  .btn-ghost.danger:hover { background: #e8806b; color: var(--dark); }
-  .admin-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-  .admin-card { background: var(--dark2); border: 1px solid rgba(201,168,76,0.15); border-radius: 4px; overflow: hidden; }
-  .admin-card img { width: 100%; height: 160px; object-fit: cover; display: block; }
-  .admin-card-body { padding: 0.8rem; }
-  .admin-card-body .cap { font-size: 0.85rem; color: var(--cream); margin-bottom: 0.2rem; }
-  .admin-card-body .cat { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.6rem; }
-  .admin-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-
   /* ── SECTIONS ── */
   section { display: none; min-height: 100vh; padding-top: 80px; }
   section.active { display: block; }
@@ -1037,8 +1009,6 @@ const DEFAULT_ITEMS = [
 ];
 
 const STORAGE_KEY = 'bab_gallery_v1';
-const ADMIN_PASSWORD = 'bankuwithshito2006'; // ⚠️ change this to your own secret
-function saveItems(items) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (e) {} }
 
 function loadItems() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_ITEMS));
@@ -1049,7 +1019,7 @@ let currentFilter = 'all';
 
 
 /* ── GALLERY (masonry + lightbox) ──
-   Reads from galleryItems (admin panel data). Optional per-item fields:
+   Reads from galleryItems. Optional per-item fields:
    size ('' | 'tall' | 'land' | 'sm'), and for cat:'film' → video (mp4 URL). */
 const LABELS = { portraits: 'Portraits', weddings: 'Events', fashion: 'Fashion', corporate: 'Lifestyle', film: 'Film' };
 const SIZE_PATTERN = ['tall', 'land', '', 'sm', '', 'tall', 'land', 'sm', '', 'tall'];
@@ -1197,149 +1167,7 @@ window.addEventListener('scroll', () => {
 });
 function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
-/* ════════════════════════════════════════════
-   ADMIN PANEL (developer only)
-   Unlock: append ?admin to URL, OR press Ctrl+Shift+A
-   ════════════════════════════════════════════ */
-let adminUnlocked = false;
-function tryUnlockAdmin() {
-  if (adminUnlocked) { openAdmin(); return; }
-  const pwd = prompt('Admin password:');
-  if (pwd === ADMIN_PASSWORD) { adminUnlocked = true; openAdmin(); }
-  else if (pwd !== null) alert('Wrong password.');
-}
-function openAdmin() {
-  document.getElementById('adminModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  renderAdminList();
-  resetAdminForm();
-}
-function closeAdmin() {
-  document.getElementById('adminModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-window.addEventListener('keydown', e => {
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') { e.preventDefault(); tryUnlockAdmin(); }
-});
-if (new URLSearchParams(location.search).get('admin') !== null) {
-  document.getElementById('adminFab').classList.add('visible');
-}
-
-let editingId = null;
-function resetAdminForm() {
-  editingId = null;
-  document.getElementById('formTitle').textContent = 'Add New Photo';
-  document.getElementById('adminSrc').value = '';
-  document.getElementById('adminCaption').value = '';
-  document.getElementById('adminCat').value = 'portraits';
-  document.getElementById('saveBtn').textContent = 'Add Photo';
-}
-function startEdit(id) {
-  const item = galleryItems.find(i => i.id === id);
-  if (!item) return;
-  editingId = id;
-  document.getElementById('formTitle').textContent = 'Edit Photo';
-  document.getElementById('adminSrc').value = item.src;
-  document.getElementById('adminCaption').value = item.caption;
-  document.getElementById('adminCat').value = item.cat;
-  document.getElementById('saveBtn').textContent = 'Save Changes';
-  document.querySelector('.admin-form').scrollIntoView({ behavior: 'smooth' });
-}
-function deletePhoto(id) {
-  if (!confirm('Delete this photo?')) return;
-  galleryItems = galleryItems.filter(i => i.id !== id);
-  saveItems(galleryItems);
-  renderAdminList();
-  renderGallery(currentFilter);
-}
-function savePhoto(e) {
-  e.preventDefault();
-  const src = document.getElementById('adminSrc').value.trim();
-  const caption = document.getElementById('adminCaption').value.trim();
-  const cat = document.getElementById('adminCat').value;
-  if (!src || !caption) { alert('Image URL and caption are required.'); return; }
-  if (editingId) {
-    galleryItems = galleryItems.map(i => i.id === editingId ? { ...i, src, caption, cat } : i);
-  } else {
-    const newId = (galleryItems.reduce((m, i) => Math.max(m, i.id), 0) || 0) + 1;
-    galleryItems.push({ id: newId, src, caption, cat });
-  }
-  saveItems(galleryItems);
-  resetAdminForm();
-  renderAdminList();
-  renderGallery(currentFilter);
-}
-let adminTab = 'all';
-function setAdminTab(cat, btn) {
-  adminTab = cat;
-  document.querySelectorAll('.admin-tabs .btn-ghost').forEach(b => b.style.opacity = '0.55');
-  btn.style.opacity = '1';
-  renderAdminList();
-}
-function renderAdminList() {
-  const list = document.getElementById('adminList');
-  const items = adminTab === 'all' ? galleryItems : galleryItems.filter(i => i.cat === adminTab);
-  if (items.length === 0) { list.innerHTML = '<p style="color:var(--text-muted)">No photos in this category yet.</p>'; return; }
-  list.innerHTML = items.map(i => `
-    <div class="admin-card">
-      <img src="${i.src}" alt="${i.caption}"/>
-      <div class="admin-card-body">
-        <div class="cap">${i.caption}</div>
-        <div class="cat">${i.cat}</div>
-        <button class="btn-ghost" onclick="startEdit(${i.id})">Edit</button>
-        <button class="btn-ghost danger" onclick="deletePhoto(${i.id})">Delete</button>
-      </div>
-    </div>
-  `).join('');
-}
-function resetGalleryToDefaults() {
-  if (!confirm('Reset gallery to defaults? This deletes all your changes.')) return;
-  localStorage.removeItem(STORAGE_KEY);
-  galleryItems = loadItems();
-  renderAdminList();
-  renderGallery(currentFilter);
-}
 </script>
-
-<!-- ══ ADMIN PANEL ══ -->
-<button id="adminFab" class="admin-fab" onclick="tryUnlockAdmin()" title="Admin (Ctrl+Shift+A)">⚙</button>
-<div id="adminModal" class="admin-modal">
-  <div class="admin-inner">
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:1rem;">
-      <div>
-        <h2>Admin <em style="font-style:italic">Panel</em></h2>
-        <p>Add, edit and delete photos. Changes are saved to this browser's storage.</p>
-      </div>
-      <div>
-        <button class="btn-ghost danger" onclick="resetGalleryToDefaults()">Reset to defaults</button>
-        <button class="btn-ghost" onclick="closeAdmin()">Close ✕</button>
-      </div>
-    </div>
-    <form class="admin-form" onsubmit="savePhoto(event)">
-      <h3 id="formTitle">Add New Photo</h3>
-      <input id="adminSrc" type="url" placeholder="Image URL (https://...)" required/>
-      <div class="row">
-        <input id="adminCaption" type="text" placeholder="Caption (e.g. Bridal Portraits)" required/>
-        <select id="adminCat" required>
-          <option value="portraits">Portraits</option>
-          <option value="weddings">Weddings</option>
-          <option value="fashion">Fashion</option>
-          <option value="corporate">Corporate</option>
-        </select>
-      </div>
-      <button id="saveBtn" type="submit" class="btn-gold">Add Photo</button>
-      <button type="button" class="btn-ghost" style="margin-left:0.5rem" onclick="resetAdminForm()">Clear</button>
-    </form>
-    <div class="admin-tabs">
-      <button class="btn-ghost" style="opacity:1" onclick="setAdminTab('all', this)">All</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('portraits', this)">Portraits</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('weddings', this)">Events</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('fashion', this)">Fashion</button>
-      <button class="btn-ghost" style="opacity:0.55" onclick="setAdminTab('corporate', this)">Lifestyle</button>
-    </div>
-    <div id="adminList" class="admin-list"></div>
-  </div>
-</div>
 
 </body>
 </html>
