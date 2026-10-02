@@ -46,7 +46,7 @@
       ],
       "url": "https://babphotography.com/",
       "image": "https://res.cloudinary.com/dsrigtvy4/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_80/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg",
-      "logo": "https://res.cloudinary.com/dsrigtvy4/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_80/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg",
+      "logo": "https://res.cloudinary.com/dsrigtvy4/image/upload/c_fill,g_auto,w_512,h_512,f_jpg,q_80/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg",
       "telephone": "+233207492996",
       "email": "babphotography1@gmail.com",
       "description": "Accra-based photographer shooting portraits, events, fashion editorials and lifestyle sessions, available to travel across Africa and internationally.",
@@ -133,7 +133,7 @@
             "itemOffered": {
               "@type": "Service",
               "name": "Premium",
-              "description": "Premium photography session"
+              "description": "Full-day coverage, up to 4 locations, 20 edited photos, outfit changes, online gallery, 5-day priority delivery"
             }
           }
         ]
@@ -471,11 +471,12 @@
   .masonry-item.sm   { grid-row: span 30; }                        /* square-ish */
   .masonry-item.tall { grid-row: span 60; }                        /* tall portrait */
 
-  .masonry-item img {
+  .masonry-item img, .masonry-item video.thumb {
     width: 100%; height: 100%; object-fit: cover; display: block;
     filter: grayscale(8%); transition: transform 0.7s ease, filter 0.5s ease;
   }
-  .masonry-item:hover img { transform: scale(1.05); filter: grayscale(0); }
+  .masonry-item:hover img, .masonry-item:hover video.thumb { transform: scale(1.05); filter: grayscale(0); }
+  .masonry-item video.thumb { pointer-events: none; background: var(--dark); }
 
   .masonry-item .overlay {
     position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 4px;
@@ -491,8 +492,8 @@
   .masonry-item:hover::after, .masonry-item:focus-visible::after { opacity: 0.7; transform: scale(1); }
 
   /* Film cards */
-  .masonry-item.film img { filter: brightness(0.8) saturate(1.05); }
-  .masonry-item.film:hover img { filter: brightness(0.6); }
+  .masonry-item.film img, .masonry-item.film video.thumb { filter: brightness(0.8) saturate(1.05); }
+  .masonry-item.film:hover img, .masonry-item.film:hover video.thumb { filter: brightness(0.6); }
   .masonry-item .play {
     position: absolute; top: 50%; left: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
     border-radius: 50%; border: 1px solid rgba(253,240,232,0.7); background: rgba(10,5,5,0.35);
@@ -537,7 +538,7 @@
   #lb-prev { left: 24px; } #lb-next { right: 24px; }
   #lb-count { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 0.7rem; letter-spacing: 0.2em; color: var(--text-muted); white-space: nowrap; }
   @media (max-width: 640px) { .lb-nav { width: 40px; height: 40px; font-size: 16px; } #lb-prev { left: 10px; } #lb-next { right: 10px; } }
-  @media (prefers-reduced-motion: reduce) { .masonry-item img, .masonry-item .overlay, .masonry-item::after { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .masonry-item img, .masonry-item video.thumb, .masonry-item .overlay, .masonry-item::after { transition: none; } }
 
   /* ══════════════════════════════
      ABOUT
@@ -1229,6 +1230,15 @@
 const ph = (c1, c2) => 'data:image/svg+xml;utf8,' + encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="800" height="1000" fill="url(#g)"/></svg>`);
 
+/* ── HOW TO ADD GALLERY CARDS ──
+   Paste your ImageKit link into  src  — photo OR video, the site detects which:
+     Photo:  { id: 30, src: 'https://ik.imagekit.io/xxxx/photo.jpg', cat: 'portraits', caption: 'My Photo' }
+     Video:  { id: 31, src: 'https://ik.imagekit.io/xxxx/clip.mp4',  cat: 'film',      caption: 'My Film'  }
+   Video links (.mp4 .webm .mov .m4v .ogv) get the Film badge and play on a silent loop in the card as soon
+   as it's on screen (no play button); clicking opens it full-size with sound. They also appear under the Film tab.
+   Optional: add  poster: 'IMAGE_URL'  to a video card to show a cover image until the video starts, or put the video in  video: 'URL'  with a photo in  src  (older style, still works).
+   cat is one of: portraits | weddings | fashion | corporate | film.   size (optional): '' | 'tall' | 'land' | 'sm'. */
+
 /* ── DEFAULT GALLERY DATA (seeds localStorage on first visit) ── */
 const DEFAULT_ITEMS = [
   { id: 1,  src: 'https://res.cloudinary.com/dsrigtvy4/image/upload/v1779410975/WhatsApp_Image_2026-05-22_at_12.45.42_AM_1_wdxi31.jpg', cat: 'portraits', caption: 'Studio Portrait' },
@@ -1289,31 +1299,65 @@ let galVisible = [], galIndex = 0, galOpener = null;
 
 function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
+/* Works out what a card holds. A link in src (or video) ending in .mp4/.webm/.mov/.m4v/.ogv is a video. */
+const VIDEO_RE = /\.(mp4|webm|mov|m4v|ogv)(?:[?#].*)?$/i;
+function mediaOf(p) {
+  const src = String(p.src || '').trim(), vid = String(p.video || '').trim();
+  const srcIsVideo = VIDEO_RE.test(src);
+  const video  = vid || (srcIsVideo ? src : '');
+  const poster = String(p.poster || '').trim() || (srcIsVideo ? '' : src);
+  return { video, poster, isFilm: p.cat === 'film' || !!video };
+}
+
 function renderGallery(filter) {
   if (filter) currentFilter = filter;
-  const hasFilm = galleryItems.some(p => p.cat === 'film');
+  const hasFilm = galleryItems.some(p => mediaOf(p).isFilm);
   filmTab.hidden = !hasFilm;
   if (currentFilter === 'film' && !hasFilm) currentFilter = 'all';
 
   galGrid.innerHTML = galleryItems.map((p, i) => {
-    const isFilm = p.cat === 'film';
+    const m = mediaOf(p), isFilm = m.isFilm;
+    const thumb = m.video
+      ? `<video class="thumb" src="${esc(m.video)}"${m.poster ? ` poster="${esc(m.poster)}"` : ''} muted loop playsinline preload="metadata" tabindex="-1" aria-hidden="true"></video>`
+      : `<img src="${esc(m.poster)}" alt="${esc(p.caption)}" loading="lazy"/>`;
     const size = p.size !== undefined ? p.size : SIZE_PATTERN[i % SIZE_PATTERN.length];
     return `
       <div class="masonry-item ${esc(size)} ${isFilm ? 'film' : ''}" data-cat="${esc(p.cat)}" data-i="${i}" tabindex="0" role="button" aria-label="${isFilm ? 'Play' : 'Open'} ${esc(p.caption)}">
-        <img src="${esc(p.src)}" alt="${esc(p.caption)}" loading="lazy"/>
-        ${isFilm ? `<span class="film-badge">Film</span><span class="play"></span>` : ''}
+        ${thumb}
+        ${isFilm ? `<span class="film-badge">Film</span>` : ''}
         <div class="overlay"><span class="ttl">${esc(p.caption)}</span><span class="tag">${esc(LABELS[p.cat] || p.cat)}</span></div>
       </div>`;
   }).join('');
   applyFilter(currentFilter);
+  watchVideos();
 }
+
+/* Film cards play on a silent loop as soon as they're on screen; paused when off screen to save data/battery. */
+let videoObserver = null;
+function watchVideos() {
+  if (videoObserver) videoObserver.disconnect();
+  const vids = galGrid.querySelectorAll('video.thumb');
+  if (!vids.length) return;
+  videoObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      const v = en.target;
+      if (en.isIntersecting && !document.hidden && !lb.classList.contains('open')) v.play().catch(() => {});
+      else v.pause();
+    });
+  }, { threshold: 0.25 });
+  vids.forEach(v => videoObserver.observe(v));
+}
+document.addEventListener('visibilitychange', () => {
+  galGrid.querySelectorAll('video.thumb').forEach(v => { if (document.hidden) v.pause(); });
+  if (!document.hidden) watchVideos();
+});
 
 function applyFilter(cat) {
   currentFilter = cat;
   document.querySelectorAll('.filter-tab').forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
   let shown = 0;
   galGrid.querySelectorAll('.masonry-item').forEach(el => {
-    const match = cat === 'all' || el.dataset.cat === cat;
+    const match = cat === 'all' || el.dataset.cat === cat || (cat === 'film' && el.classList.contains('film'));
     el.style.display = match ? '' : 'none';
     if (match) shown++;
   });
@@ -1326,18 +1370,20 @@ function openViewer(el) {
   galOpener = el;
   showViewer();
   lb.classList.add('open');
+  galGrid.querySelectorAll('video.thumb').forEach(v => v.pause());
   document.body.style.overflow = 'hidden';
   document.getElementById('lb-close').focus();
 }
 function showViewer() {
-  const el = galVisible[galIndex], item = galleryItems[+el.dataset.i], img = el.querySelector('img');
+  const el = galVisible[galIndex], item = galleryItems[+el.dataset.i], m = mediaOf(item);
   lbVideo.pause();
-  if (item.video) {
-    lbVideo.src = item.video; lbVideo.style.display = 'block'; lbImg.style.display = 'none';
+  if (m.video) {
+    lbVideo.poster = m.poster || '';
+    lbVideo.src = m.video; lbVideo.style.display = 'block'; lbImg.style.display = 'none';
     lbVideo.play().catch(() => {});
   } else {
     lbVideo.removeAttribute('src'); lbVideo.style.display = 'none';
-    lbImg.style.display = 'block'; lbImg.src = img.src; lbImg.alt = img.alt;
+    lbImg.style.display = 'block'; lbImg.src = m.poster; lbImg.alt = item.caption || '';
   }
   lbCount.textContent = item.caption + '  ·  ' + (galIndex + 1) + ' / ' + galVisible.length;
 }
@@ -1345,6 +1391,7 @@ function stepViewer(d) { galIndex = (galIndex + d + galVisible.length) % galVisi
 function closeViewer() {
   lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.load();
   lb.classList.remove('open');
+  watchVideos();
   document.body.style.overflow = '';
   if (galOpener) galOpener.focus({ preventScroll: true });
 }
@@ -1450,7 +1497,7 @@ function sendToWhatsApp() {
 *Vision / Notes:*
 ${msg || 'No additional notes.'}`;
   const waNumber = '233207492996';
-  window.open(`https://wa.me/${233207492996}?text=${encodeURIComponent(text)}`, '_blank');
+  window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 /* ── NAV / MOBILE ── */
